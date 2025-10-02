@@ -16,14 +16,15 @@ const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
     icon: "./public/images/icon/icon",
-    osxSign: {
-      identity: process.env.PUBLIC_IDENTIFIER,
-    },
-    osxNotarize: {
-      appleApiKey: process.env.APPLE_API_KEY || "",
-      appleApiKeyId: process.env.APPLE_API_KEY_ID || "",
-      appleApiIssuer: process.env.APPLE_API_ISSUER || "",
-    },
+    // Disable code signing for local builds
+    // osxSign: {
+    //   identity: process.env.PUBLIC_IDENTIFIER,
+    // },
+    // osxNotarize: {
+    //   appleApiKey: process.env.APPLE_API_KEY || "",
+    //   appleApiKeyId: process.env.APPLE_API_KEY_ID || "",
+    //   appleApiIssuer: process.env.APPLE_API_ISSUER || "",
+    // },
   },
   rebuildConfig: {},
   makers: [
@@ -34,15 +35,16 @@ const config: ForgeConfig = {
         "Effortlessly manage your MCP servers with the MCP Router. MCP Router provides a user-friendly interface for managing MCP servers, making it easier than ever to work with the MCP.",
       setupIcon: "./public/images/icon/icon.ico",
     }),
-    new MakerDMG(
-      {
-        name: "MCP Router",
-        format: "ULFO",
-        icon: "./public/images/icon/icon.icns",
-      },
-      ["darwin"],
-    ),
-    new MakerZIP(),
+    // DMG maker disabled due to macos-alias dependency issues
+    // new MakerDMG(
+    //   {
+    //     name: "MCP Router",
+    //     format: "ULFO",
+    //     icon: "./public/images/icon/icon.icns",
+    //   },
+    //   ["darwin"],
+    // ),
+    new MakerZIP({}, ["darwin", "linux"]),
   ],
   plugins: [
     new AutoUnpackNativesPlugin({}),
@@ -88,7 +90,7 @@ const config: ForgeConfig = {
       config: {
         authToken: process.env.GITHUB_TOKEN,
         repository: {
-          owner: "mcp-router",
+          owner: "Fate0x01",
           name: "mcp-router",
         },
         prerelease: true,
