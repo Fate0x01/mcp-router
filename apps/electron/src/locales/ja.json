@@ -467,7 +467,15 @@
     "confirmDelete": "削除を確認",
     "deleteWarning": "このカスタムアプリを削除してもよろしいですか？この操作は元に戻せません。",
     "deleteSuccess": "カスタムアプリを削除しました",
-    "deleteFailed": "カスタムアプリの削除に失敗しました"
+    "deleteFailed": "カスタムアプリの削除に失敗しました",
+    "howToUseDialog": {
+      "cliUsageTitle": "1. CLIでの使用方法",
+      "cliUsageDescriptionWithToken": "トークンを環境変数として設定して接続します：",
+      "cliUsageDescriptionNoToken": "@mcp_router/cliを使って接続します：",
+      "configUsageTitle": "2. MCPサーバ設定での使用方法",
+      "configUsageDescription": "MCPサーバ設定ファイルに追加します：",
+      "exportTokenComment": "# トークンを環境変数としてエクスポート"
+    }
   },
   "serverDetails": {
     "configuration": "設定",
@@ -554,7 +562,8 @@
   },
   "languages": {
     "en": "英語",
-    "ja": "日本語"
+    "ja": "日本語",
+    "zh": "中文"
   },
   "locale": "ja-JP",
   "importFromJson": {

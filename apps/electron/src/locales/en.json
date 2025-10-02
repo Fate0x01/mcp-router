@@ -41,7 +41,8 @@
   },
   "languages": {
     "en": "English",
-    "ja": "日本語"
+    "ja": "日本語",
+    "zh": "中文"
   },
   "locale": "en-US",
   "login": {
@@ -463,7 +464,15 @@
     "confirmDelete": "Confirm Delete",
     "deleteWarning": "Are you sure you want to delete this custom app? This action cannot be undone.",
     "deleteSuccess": "App deleted successfully",
-    "deleteFailed": "Failed to delete app"
+    "deleteFailed": "Failed to delete app",
+    "howToUseDialog": {
+      "cliUsageTitle": "1. Using with CLI",
+      "cliUsageDescriptionWithToken": "Connect to the MCP Router server:",
+      "cliUsageDescriptionNoToken": "Connect using @mcp_router/cli:",
+      "configUsageTitle": "2. Using in MCP Server Configuration",
+      "configUsageDescription": "Add to your MCP server configuration file:",
+      "exportTokenComment": "# Export token as environment variable"
+    }
   },
   "serverDetails": {
     "configuration": "Configuration",

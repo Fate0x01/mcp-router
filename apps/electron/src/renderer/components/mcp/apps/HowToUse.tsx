@@ -18,22 +18,26 @@ export interface HowToUseHandle {
   showDialog: () => void;
 }
 
-// English version component
-const HowToUseEN: React.FC<HowToUseProps> = ({ token }) => {
+// Content component using i18n
+const HowToUseContent: React.FC<HowToUseProps> = ({ token }) => {
+  const { t } = useTranslation();
+
   return (
     <>
       {/* CLI Usage */}
       <div className="mb-6">
-        <h4 className="text-md font-semibold mb-3">1. Using with CLI</h4>
+        <h4 className="text-md font-semibold mb-3">
+          {t("mcpApps.howToUseDialog.cliUsageTitle")}
+        </h4>
         <p className="mb-3 text-muted-foreground">
           {token
-            ? "Connect to the MCP Router server:"
-            : "Connect using @mcp_router/cli:"}
+            ? t("mcpApps.howToUseDialog.cliUsageDescriptionWithToken")
+            : t("mcpApps.howToUseDialog.cliUsageDescriptionNoToken")}
         </p>
         <div className="overflow-x-auto w-full">
           <pre className="bg-muted p-4 rounded-lg text-xs whitespace-pre min-w-min w-max">
             {token
-              ? `# Export token as environment variable
+              ? `${t("mcpApps.howToUseDialog.exportTokenComment")}
 export MCPR_TOKEN="${token}"
 
 npx -y @mcp_router/cli@latest connect`
@@ -45,10 +49,10 @@ npx -y @mcp_router/cli@latest connect`
       {/* Config File Usage */}
       <div className="mb-6">
         <h4 className="text-md font-semibold mb-3">
-          2. Using in MCP Server Configuration
+          {t("mcpApps.howToUseDialog.configUsageTitle")}
         </h4>
         <p className="mb-3 text-muted-foreground">
-          Add to your MCP server configuration file:
+          {t("mcpApps.howToUseDialog.configUsageDescription")}
         </p>
         <div className="overflow-x-auto w-full">
           <pre className="bg-muted p-4 rounded-lg text-xs whitespace-pre min-w-min w-max">
@@ -74,84 +78,19 @@ npx -y @mcp_router/cli@latest connect`
   );
 };
 
-// Japanese version component
-const HowToUseJA: React.FC<HowToUseProps> = ({ token }) => {
-  return (
-    <>
-      {/* CLI Usage */}
-      <div className="mb-6">
-        <h4 className="text-md font-semibold mb-3">1. CLIでの使用方法</h4>
-        <p className="mb-3 text-muted-foreground">
-          {token
-            ? "トークンを環境変数として設定して接続します："
-            : "@mcp_router/cliを使って接続します："}
-        </p>
-        <div className="overflow-x-auto w-full">
-          <pre className="bg-muted p-4 rounded-lg text-xs whitespace-pre min-w-min w-max">
-            {token
-              ? `# トークンを環境変数としてエクスポート
-export MCPR_TOKEN="${token}"
-
-# mcpr-cliを使って接続
-npx -y @mcp_router/cli@latest connect`
-              : `# mcpr-cliを使って接続
-npx -y @mcp_router/cli@latest connect`}
-          </pre>
-        </div>
-      </div>
-
-      {/* Config File Usage */}
-      <div className="mb-6">
-        <h4 className="text-md font-semibold mb-3">
-          2. MCPサーバ設定での使用方法
-        </h4>
-        <p className="mb-3 text-muted-foreground">
-          MCPサーバ設定ファイルに追加します：
-        </p>
-        <div className="overflow-x-auto w-full">
-          <pre className="bg-muted p-4 rounded-lg text-xs whitespace-pre min-w-min w-max">
-            {`{
-  "mcpServers": {
-    "mcp-router": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@mcp_router/cli@latest",
-        "connect"
-      ],
-      "env": {
-        "MCPR_TOKEN": "${token}"
-      }
-    }
-  }
-}`}
-          </pre>
-        </div>
-      </div>
-    </>
-  );
-};
-
-// Main component that switches based on language
+// Main component with dialog
 const HowToUse = forwardRef<HowToUseHandle, HowToUseProps>(({ token }, ref) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useImperativeHandle(ref, () => ({
     showDialog: () => setIsDialogOpen(true),
   }));
 
-  const content =
-    i18n.language === "ja" ? (
-      <HowToUseJA token={token} />
-    ) : (
-      <HowToUseEN token={token} />
-    );
-
   return (
     <>
       {/* Inline display when used directly */}
-      {!isDialogOpen && content}
+      {!isDialogOpen && <HowToUseContent token={token} />}
 
       {/* Dialog version */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -160,7 +99,7 @@ const HowToUse = forwardRef<HowToUseHandle, HowToUseProps>(({ token }, ref) => {
             <DialogTitle>{t("mcpApps.howToUse")}</DialogTitle>
           </DialogHeader>
           <ScrollArea className="max-h-[70vh] overflow-auto">
-            {content}
+            <HowToUseContent token={token} />
           </ScrollArea>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
